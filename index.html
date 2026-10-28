@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="description" content="DINO-Nucleus: Multi-Level Self-Supervised Features for Nucleus Instance Segmentation. MICAD 2026 · NeuraVision Lab · Bilkent University.">
+  <meta property="og:title" content="DINO-Nucleus · MICAD 2026">
+  <meta property="og:description" content="Multi-level DINOv2 features and center-consistent flows for nucleus instance segmentation.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/figure-1-architecture.png">
+  <link rel="icon" href="assets/dino-nucleus-mark-small.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <title>DINO-Nucleus | MICAD 2026</title>
+</head>
+<body>
+  <a class="skip" href="#abstract">Skip to main content</a>
+  <header class="topbar" id="top">
+    <div class="wrap topbar-inner">
+      <a class="wordmark" href="#top" aria-label="DINO-Nucleus home"><img src="assets/dino-nucleus-mark.webp" alt="" width="35" height="35"> DINO<span>—</span>Nucleus</a>
+      <nav class="navigation" aria-label="On this page">
+        <a href="#architecture">Architecture</a><a href="#method">Method</a><a href="#results">Results</a><a href="#citation">Citation</a>
+      </nav>
+      <a class="paper-link" href="assets/DINO-Nucleus_MICAD2026.pdf" target="_blank" rel="noopener">Paper <span aria-hidden="true">↗</span></a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero wrap" aria-labelledby="paper-title">
+      <div class="institution-strip" aria-label="Conference and institutional logos">
+        <a class="institution micad" href="https://www.micad.org/" target="_blank" rel="noopener"><img src="assets/micad-2026.png" alt="MICAD 2026"></a>
+        <span class="separator" aria-hidden="true"></span>
+        <a class="institution neuro" href="https://neuravisionlab.com/" target="_blank" rel="noopener"><img src="assets/neuravision-lab.png" alt="NeuraVision Lab"></a>
+        <span class="separator" aria-hidden="true"></span>
+        <a class="institution bilkent" href="https://w3.bilkent.edu.tr/bilkent/" target="_blank" rel="noopener"><img src="assets/bilkent-university.png" alt="Bilkent University"></a>
+      </div>
+      <div class="conference-line"><span class="dot"></span> MICAD 2026 · 7th International Conference on Medical Imaging and Computer-Aided Diagnosis</div>
+      <h1 id="paper-title">DINO<span class="dash">-</span>Nucleus</h1>
+      <p class="subtitle">Multi-Level Self-Supervised Features for Nucleus Instance Segmentation</p>
+      <p class="authors"><span class="corresponding-author">Mohammad Sarhangzadeh<a class="author-mail" href="mailto:m.sarhangzadeh@bilkent.edu.tr" aria-label="Email Mohammad Sarhangzadeh" title="Email Mohammad Sarhangzadeh" rel="author"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="m3 7 9 7 9-7"/></svg></a></span> <span class="author-separator">·</span> Elyar Esmaeilzadeh <span class="author-separator">·</span> Doruk Öner</p>
+      <p class="affiliation">NeuraVision Lab · Department of Computer Engineering · Bilkent University</p>
+      <div class="hero-actions" aria-label="Paper, contact, and code links">
+        <a class="btn primary" href="assets/DINO-Nucleus_MICAD2026.pdf" target="_blank" rel="noopener">Read the paper <span aria-hidden="true">↗</span></a>
+        <a class="btn secondary" href="mailto:m.sarhangzadeh@bilkent.edu.tr"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="m3 7 9 7 9-7"/></svg> Contact</a>
+        <span class="btn disabled" aria-label="GitHub code coming soon" title="Code will be available after verification">GitHub code · Coming soon</span>
+      </div>
+    </section>
+
+    <section id="abstract" class="section abstract-section" aria-labelledby="abstract-heading">
+      <div class="wrap compact">
+        <h2 id="abstract-heading">Abstract</h2>
+        <p>Nucleus instance segmentation and counting are essential for quantitative microscopy, enabling reliable analysis of cell populations, tissue organization, and disease-related changes. However, accurately separating touching nuclei remains difficult, and many existing approaches rely on computationally expensive models or sensitive post-processing procedures. We present DINO-Nucleus, an efficient framework that leverages multi-level self-supervised DINOv2 representations for nucleus instance segmentation and counting. The model jointly predicts nucleus regions, pixel-wise instance flows, and explicit nucleus centers, while a consistency objective encourages the predicted flows to converge toward their corresponding centers. Multi-level transformer features provide complementary spatial and semantic information, and the pretrained backbone is adapted using lightweight LoRA modules to reduce fine-tuning cost. Experimental results show that DINO-Nucleus achieves strong segmentation and counting performance while remaining computationally efficient. These findings demonstrate that parameter-efficient adaptation of multi-level self-supervised features can provide an effective solution for nucleus instance segmentation in microscopy images.</p>
+      </div>
+    </section>
+
+    <section id="architecture" class="section" aria-labelledby="architecture-heading">
+      <div class="wrap">
+        <div class="section-head"><div><span class="kicker">01 / OVERVIEW</span><h2 id="architecture-heading">Full architecture</h2></div></div>
+        <figure class="figure-panel">
+          <button class="open-figure" data-full="assets/figure-1-architecture.png" data-alt="Full DINO-Nucleus architecture from Figure 1" aria-label="Expand full architecture figure"><img src="assets/figure-1-architecture.webp" alt="DINO-Nucleus overall architecture, three prediction heads, training objective, and instance reconstruction" width="1543" height="1019" loading="lazy"><span class="zoom-hint">Click to enlarge ↗</span></button>
+          <figcaption><strong>Figure 1.</strong> DINO-Nucleus architecture, training objective, and instance reconstruction.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="method" class="section method-section" aria-labelledby="method-heading">
+      <div class="wrap">
+        <div class="section-head"><div><span class="kicker">02 / METHOD</span><h2 id="method-heading">Method and training objectives</h2></div><p>Learning nucleus regions, centers, and pixel-wise directions from fused DINOv2 features.</p></div>
+        <p class="method-intro">DINO-Nucleus combines intermediate representations from <strong>DINOv2 ViT-S/14</strong> (layers 2, 5, 8, and 11) with high-resolution CNN features. A shared decoder makes three predictions, each supervised by a corresponding objective.</p>
+
+        <div class="loss-grid" aria-label="Foreground, center, and flow losses and flow target">
+          <article class="loss-card">
+            <div class="loss-card-head"><span class="loss-number">01</span><h3>Foreground loss</h3></div>
+            <div class="equation-image"><img src="assets/equations/loss-foreground.svg" alt="L foreground equals L binary cross-entropy plus L Dice." loading="lazy"></div>
+            <p>Binary cross-entropy and Dice loss learn the nucleus foreground region.</p>
+          </article>
+          <article class="loss-card">
+            <div class="loss-card-head"><span class="loss-number">02</span><h3>Center loss</h3></div>
+            <div class="equation-image"><img src="assets/equations/loss-center.svg" alt="L center equals Gaussian focal loss of predicted center heatmap and target center heatmap." loading="lazy"></div>
+            <p>Gaussian focal loss supervises a center heatmap, built from interior nuclei centers.</p>
+          </article>
+          <article class="loss-card">
+            <div class="loss-card-head"><span class="loss-number">03</span><h3>Flow regression loss</h3></div>
+            <div class="equation-image"><img src="assets/equations/loss-flow.svg" alt="L flow is foreground-masked Smooth L1 regression summed over x and y, divided by foreground pixel count plus epsilon." loading="lazy"></div>
+            <p>Foreground-masked Smooth L1 supervises the predicted directions within nucleus regions.</p>
+          </article>
+          <article class="loss-card flow-target-card">
+            <div class="loss-card-head"><span class="loss-number supplementary">TARGET</span><h3>Center-directed flow target</h3></div>
+            <div class="equation-image"><img src="assets/equations/flow-target.svg" alt="The target flow for each nucleus pixel is the normalized vector from the pixel to its nucleus center." loading="lazy"></div>
+            <p>Each foreground pixel points to an interior nucleus center; background flow is zero.</p>
+          </article>
+        </div>
+
+        <div class="video-head consistency-video-heading"><div><span class="kicker">TRAJECTORY MECHANISM · SCHEMATIC</span><h3>Following the flow toward nuclei centers</h3></div></div>
+        <div class="video-shell"><video id="flow-video" autoplay muted loop playsinline preload="metadata" poster="assets/trajectory-poster.png" aria-label="Synthetic flow trajectories moving toward nucleus centers"><source src="assets/trajectories.mp4" type="video/mp4"><img src="assets/trajectories.gif" alt="Synthetic trajectory integration animation"></video><button class="play-toggle" id="video-toggle" type="button" aria-label="Pause animation">Pause <span aria-hidden="true">Ⅱ</span></button></div>
+
+        <div class="consistency-section" id="consistency">
+          <div class="consistency-intro">
+            <span class="kicker">04 / ENDPOINT CONSISTENCY</span>
+            <h3>Flow-to-center consistency</h3>
+            <p>Local flow regression alone does not guarantee that trajectories reach valid centers. We differentiably integrate each foreground pixel's predicted flow, then encourage its endpoint to lie at a nucleus-center response.</p>
+          </div>
+          <div class="consistency-math-grid" aria-label="Three components of endpoint consistency">
+            <div class="math-step">
+              <span class="math-label">Differentiable trajectory integration</span>
+              <div class="equation-image"><img src="assets/equations/flow-integration.svg" alt="At each time step, the position is updated by normalized predicted flow weighted by foreground support and step size." loading="lazy"></div>
+            </div>
+            <div class="math-step">
+              <span class="math-label">Center reference with a detached prediction</span>
+              <div class="equation-image"><img src="assets/equations/center-reference.svg" alt="The reference center map combines the ground-truth center map with a detached predicted center map." loading="lazy"></div>
+            </div>
+            <div class="math-step">
+              <span class="math-label">Endpoint-consistency loss</span>
+              <div class="equation-image"><img src="assets/equations/loss-endpoint.svg" alt="The endpoint loss is the foreground-weighted negative log of the reference center response at trajectory endpoints." loading="lazy"></div>
+            </div>
+          </div>
+          <div class="total-loss">
+            <span class="math-label">Combined objective</span>
+            <div class="equation-image"><img src="assets/equations/loss-total.svg" alt="Total loss is a weighted sum of foreground, center, flow, and endpoint-consistency losses." loading="lazy"></div>
+            <p>Loss weights: <strong>1.0</strong> foreground · <strong>0.5</strong> center · <strong>0.5</strong> flow · <strong>0.05</strong> endpoint, with a warm-up schedule for consistency.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="section" aria-labelledby="features-heading"><div class="wrap">
+      <div class="section-head"><div><span class="kicker">03 / FEATURES</span><h2 id="features-heading">Inside DINOv2 representations</h2></div></div>
+      <figure class="figure-panel"><button class="open-figure" data-full="assets/figure-2-features.png" data-alt="DINOv2 PCA, prototype-score and t-SNE analysis in Figure 2" aria-label="Expand DINOv2 feature analysis"><img src="assets/figure-2-features.webp" alt="Figure 2: PCA feature maps, nucleus prototype scores, and t-SNE plots for DINOv2 layers 2, 5, 8, and 11" width="2048" height="995" loading="lazy"><span class="zoom-hint">Click to enlarge ↗</span></button><figcaption><strong>Figure 2.</strong> PCA maps, nucleus–background prototype scores, and t-SNE projections of background, boundary, and nucleus-dominant patches.</figcaption></figure>
+    </div></section>
+
+    <section id="results" class="section results-section" aria-labelledby="results-heading"><div class="wrap">
+      <div class="section-head"><div><span class="kicker">04 / EXPERIMENTS</span><h2 id="results-heading">Results on BBBC038</h2></div><p>670 microscopy images · instance matches at IoU &gt; 0.45.</p></div>
+      <div class="table-wrap"><table aria-describedby="results-note"><thead><tr><th scope="col">Method</th><th scope="col">Dice ↑</th><th scope="col">IoU ↑</th><th scope="col">Obj. F1 ↑</th><th scope="col">PQ ↑</th><th scope="col">AJI ↑</th><th scope="col">MAE ↓</th><th scope="col">Pearson ↑</th></tr></thead><tbody>
+        <tr><th scope="row">TC-UNet++</th><td>92.46</td><td>88.51</td><td>83.64</td><td>72.33</td><td>77.59</td><td>9.19</td><td>89.70</td></tr>
+        <tr><th scope="row">Cellpose3</th><td>88.71</td><td>81.34</td><td>88.52</td><td>76.69</td><td>83.13</td><td>5.97</td><td>93.39</td></tr>
+        <tr><th scope="row">StarDist</th><td>85.94</td><td>81.07</td><td>83.06</td><td>70.05</td><td>75.93</td><td>9.72</td><td>87.62</td></tr>
+        <tr><th scope="row">CellViT</th><td>90.22</td><td>84.35</td><td>90.75</td><td>77.40</td><td>85.35</td><td>5.63</td><td>94.58</td></tr>
+        <tr><th scope="row">DINOv2</th><td>90.98</td><td>86.16</td><td>83.51</td><td>74.88</td><td>79.28</td><td>7.47</td><td>89.20</td></tr>
+        <tr class="ours"><th scope="row">DINO-Nucleus</th><td>90.45</td><td>85.30</td><td><strong>92.38</strong></td><td><strong>79.33</strong></td><td><strong>88.97</strong></td><td><strong>3.11</strong></td><td><strong>98.75</strong></td></tr>
+      </tbody></table></div>
+      <p id="results-note" class="fineprint">Numbers are reported in Table 1 of the MICAD 2026 paper; they have not yet been reproduced using the new codebase. Scores follow the paper's scale.</p>
+    </div></section>
+
+    <section class="section takeaway-section" id="takeaway" aria-labelledby="takeaway-heading"><div class="wrap takeaway">
+      <span class="kicker">05 / CONCLUSION</span><h2 id="takeaway-heading">Conclusion</h2>
+      <p>DINO-Nucleus brings together transferable self-supervised representations and explicit geometric instance modeling. By combining multi-level DINOv2 features with local image detail and lightweight LoRA adaptation, the framework learns nucleus structure without requiring full backbone fine-tuning.</p>
+      <p>Joint foreground, center, and flow predictions—linked by an endpoint-consistency objective—allow neighboring nuclei to be separated through their learned trajectories rather than watershed reconstruction. The experiments suggest that this design is particularly effective for instance separation and reliable nucleus counting, offering a practical and parameter-efficient approach to quantitative microscopy.</p>
+    </div></section>
+
+    <section id="citation" class="section citation-section" aria-labelledby="citation-heading"><div class="wrap">
+      <div class="section-head citation-heading"><div><span class="kicker">CITATION</span><h2 id="citation-heading">BibTeX</h2></div><button type="button" class="btn secondary copy-btn" id="copy-bibtex" aria-live="polite">Copy BibTeX ⧉</button></div>
+      <pre id="bibtex">@inproceedings{sarhangzadeh2026dinonucleus,
+  title     = {DINO-Nucleus: Multi-Level Self-Supervised Features
+               for Nucleus Instance Segmentation},
+  author    = {Sarhangzadeh, Mohammad and Esmaeilzadeh, Elyar
+               and Oner, Doruk},
+  booktitle = {7th International Conference on Medical Imaging
+               and Computer-Aided Diagnosis (MICAD)},
+  year      = {2026}
+}</pre>
+      <p class="fineprint">Provisional conference citation. Publication details such as pages and DOI can be added once available.</p>
+    </div></section>
+  </main>
+  <footer class="footer"><div class="wrap"><span>© 2026 DINO-Nucleus · NeuraVision Lab · Bilkent University</span><a href="#top">Back to top ↑</a></div></footer>
+  <dialog id="figure-dialog" aria-label="Enlarged figure"><a id="full-res-link" class="full-res-link" target="_blank" rel="noopener" href="assets/figure-1-architecture.png">View original resolution ↗</a><button id="close-figure" aria-label="Close expanded figure" class="close-figure">×</button><img id="expanded-figure" alt=""></dialog>
+  <script src="main.js" defer></script>
+</body>
+</html>
